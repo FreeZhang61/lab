@@ -1,9 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: guestbook-helm-guestbook
+  name: guestbook
   labels:
-    app: helm-guestbook
+    app: guestbook
 spec:
   ingressClassName: kong
   rules:
@@ -13,6 +13,6 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: guestbook-helm-guestbook
+            name: guestbook
             port:
               number: 80

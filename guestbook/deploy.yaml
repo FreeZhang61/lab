@@ -9,12 +9,9 @@ metadata:
   creationTimestamp: '2022-08-05T07:23:32Z'
   generation: 4
   labels:
-    app: helm-guestbook
+    app: guestbook
     app.kubernetes.io/instance: guestbook
-    chart: helm-guestbook-0.1.0
-    heritage: Helm
-    release: guestbook
-  name: guestbook-helm-guestbook
+  name: guestbook
   namespace: default
   resourceVersion: '52341'
   uid: c7f20e1a-d460-4cd2-a215-baa59e6abec8
@@ -26,7 +23,7 @@ spec:
   # 标签，用来组织应用
   selector:
     matchLabels:
-      app: helm-guestbook
+      app: guestbook
       release: guestbook
   strategy:
     rollingUpdate:
@@ -42,7 +39,7 @@ spec:
       creationTimestamp: null
       # label标签, 供组织文件
       labels:
-        app: helm-guestbook
+        app: guestbook
         release: guestbook
     spec:
       volumes:
@@ -62,15 +59,15 @@ spec:
           # 资源设置
           resources:
           # 最低要求(软限)
-           requests:
-            cpu: "0.5"
-            memory: "100Mi"
+            requests:
+              cpu: "0.5"
+              memory: "100Mi"
           # 最高限制(硬限/上限)
-          limits:
+            limits:
             # CPU是超不了的
-            cpu: "1"
+              cpu: "1"
             # mem越界会被干掉
-            memory: "200Mi"
+              memory: "200Mi"
           imagePullPolicy: IfNotPresent
           # 健康检查
           livenessProbe:
