@@ -45,7 +45,7 @@ spec:
         emptyDir: {}
       containers:
           # 镜像版本
-        - image: 'lowyard/ks-guestbook-demo:0.1'
+        - image: 'kubeguide/guestbook-php-frontend:latest'
           # 挂载卷
           volumeMounts:
           - mountPath: /cache
