@@ -7,7 +7,7 @@ metadata:
     kubectl.kubernetes.io/last-applied-configuration: >
       {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"helm-guestbook","app.kubernetes.io/instance":"guestbook","chart":"helm-guestbook-0.1.0","heritage":"Helm","release":"guestbook"},"name":"guestbook-helm-guestbook","namespace":"default"},"spec":{"replicas":1,"revisionHistoryLimit":3,"selector":{"matchLabels":{"app":"helm-guestbook","release":"guestbook"}},"template":{"metadata":{"labels":{"app":"helm-guestbook","release":"guestbook"}},"spec":{"containers":[{"image":"gcr.io/heptio-images/ks-guestbook-demo:0.1","imagePullPolicy":"IfNotPresent","livenessProbe":{"httpGet":{"path":"/","port":"http"}},"name":"helm-guestbook","ports":[{"containerPort":80,"name":"http","protocol":"TCP"}],"readinessProbe":{"httpGet":{"path":"/","port":"http"}},"resources":{}}]}}}}
   creationTimestamp: '2022-08-05T07:23:32Z'
-  generation: 4
+  generation: 3
   labels:
     app: guestbook
     app.kubernetes.io/instance: guestbook
