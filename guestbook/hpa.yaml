@@ -1,18 +1,22 @@
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
+  annotations:
+    autoscaling.alpha.kubernetes.io/conditions: '[{"type":"AbleToScale","status":"True","lastTransitionTime":"2022-08-07T07:15:25Z","reason":"SucceededGetScale","message":"the
+      HPA controller was able to get the target''s current scale"},{"type":"ScalingActive","status":"False","lastTransitionTime":"2022-08-07T07:15:25Z","reason":"FailedGetResourceMetric","message":"the
+      HPA was unable to compute the replica count: failed to get cpu utilization:
+      unable to get metrics for resource cpu: unable to fetch metrics from resource
+      metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)"}]'
+  creationTimestamp: "2022-08-07T07:15:10Z"
   name: guestbook
+  namespace: default
+  resourceVersion: "140510"
+  uid: 3b374aa5-f3c5-4797-a31d-c455395705ea
 spec:
+  maxReplicas: 10
+  minReplicas: 1
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: guestbook
-  minReplicas: 1
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 50
+  targetCPUUtilizationPercentage: 50
