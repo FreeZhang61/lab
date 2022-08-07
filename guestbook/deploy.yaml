@@ -13,7 +13,6 @@ metadata:
     app.kubernetes.io/instance: guestbook
   name: guestbook
   namespace: default
-  uid: c7f20e1a-d460-4cd2-a215-baa59e6abec8
 spec:
   progressDeadlineSeconds: 600
   # 副本数
