@@ -1,0 +1,110 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: '3'
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"helm-guestbook","app.kubernetes.io/instance":"guestbook","chart":"helm-guestbook-0.1.0","heritage":"Helm","release":"guestbook"},"name":"guestbook-helm-guestbook","namespace":"default"},"spec":{"replicas":1,"revisionHistoryLimit":3,"selector":{"matchLabels":{"app":"helm-guestbook","release":"guestbook"}},"template":{"metadata":{"labels":{"app":"helm-guestbook","release":"guestbook"}},"spec":{"containers":[{"image":"gcr.io/heptio-images/ks-guestbook-demo:0.1","imagePullPolicy":"IfNotPresent","livenessProbe":{"httpGet":{"path":"/","port":"http"}},"name":"helm-guestbook","ports":[{"containerPort":80,"name":"http","protocol":"TCP"}],"readinessProbe":{"httpGet":{"path":"/","port":"http"}},"resources":{}}]}}}}
+  creationTimestamp: '2022-08-05T07:23:32Z'
+  generation: 4
+  labels:
+    app: helm-guestbook
+    app.kubernetes.io/instance: guestbook
+    chart: helm-guestbook-0.1.0
+    heritage: Helm
+    release: guestbook
+  name: guestbook-helm-guestbook
+  namespace: default
+  resourceVersion: '52341'
+  uid: c7f20e1a-d460-4cd2-a215-baa59e6abec8
+spec:
+  progressDeadlineSeconds: 600
+  # 副本数
+  replicas: 3
+  revisionHistoryLimit: 3
+  # 标签，用来组织应用
+  selector:
+    matchLabels:
+      app: helm-guestbook
+      release: guestbook
+  strategy:
+    rollingUpdate:
+      # 最大并发数
+      maxSurge: 1
+      # 最大不可用数
+      maxUnavailable: 1
+    # 滚动更新
+    type: RollingUpdate
+  # pod模版
+  template:
+    metadata:
+      creationTimestamp: null
+      # label标签, 供组织文件
+      labels:
+        app: helm-guestbook
+        release: guestbook
+    spec:
+      volumes:
+      - name: cache-volume
+        emptyDir: {}
+      containers:
+          # 镜像版本
+        - image: 'lowyard/ks-guestbook-demo:0.1'
+          # 挂载卷
+          volumeMounts:
+          - mountPath: /cache
+            name: cache-volume
+          # 环境变量
+          env:
+          - name: DEMO
+            value: "Hell word"
+          # 资源设置
+          resources:
+          # 最低要求(软限)
+           requests:
+            cpu: "0.5"
+            memory: "100Mi"
+          # 最高限制(硬限/上限)
+          limits:
+            # CPU是超不了的
+            cpu: "1"
+            # mem越界会被干掉
+            memory: "200Mi"
+          imagePullPolicy: IfNotPresent
+          # 健康检查
+          livenessProbe:
+            # 三次失败则认为不健康
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            # 检查间隔
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: helm-guestbook
+          # 对外暴露的端口
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+          # 就绪探测
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      # 优雅退出的时间
+      terminationGracePeriodSeconds: 30
