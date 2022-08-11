@@ -10,8 +10,6 @@ metadata:
   creationTimestamp: "2022-08-07T07:15:10Z"
   name: guestbook
   namespace: default
-  resourceVersion: "140510"
-  uid: 3b374aa5-f3c5-4797-a31d-c455395705ea
 spec:
   maxReplicas: 10
   minReplicas: 1
